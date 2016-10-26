@@ -13,7 +13,7 @@ case class Update(from: Int, to: Float) extends Page
 
 val router = {
   import tinyrouter.TinyRouter._
-  tinyrouter.Router[Page](
+  val router = tinyrouter.Router[Page](
     dynamic[Edit](x => s"edit/${x.id}") {
       case url"edit/${int(i)}" => Edit(i)
     },
@@ -21,6 +21,15 @@ val router = {
       case url"update/${int(from)}/${float(to)}" => Update(from, to)
     },
     static(Dashboard, "dashboard")
+  )
+  // NOTE. You should only define one route per class of the ADT. The following will not work.
+  val brokenRouter = tinyrouter.Router[Page](
+    dynamic[Edit](x => s"edit/${x.id}") {
+      case url"edit/${int(i)}" => Edit(i)
+    },
+    dynamic[Edit](x => s"banana/${x.id}") {
+      case url"banana/${int(i)}" => Edit(i)
+    }
   )
 }
 val url  = router.toUrl(Edit(2))    // Some("edit/2")
