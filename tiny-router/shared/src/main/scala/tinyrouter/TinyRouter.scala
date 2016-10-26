@@ -7,10 +7,12 @@ import scala.util.matching.Regex
 
 import java.util.regex.Pattern
 
+/** Small DSL to build a Router. */
 trait TinyRouter {
   val int = StringUnapply[Int](x => Try(x.toInt).toOption)
   val long = StringUnapply[Long](x => Try(x.toLong).toOption)
   val float = StringUnapply[Float](x => Try(x.toFloat).toOption)
+  val double = StringUnapply[Double](x => Try(x.toDouble).toOption)
 
   implicit class UrlExtractor(sc: StringContext) {
     def url: PathExtractor = PathExtractor.cached(sc.parts)
@@ -29,12 +31,17 @@ trait TinyRouter {
 
 object TinyRouter extends TinyRouter
 
-/** Wrapper for two functions, T => String and String => T */
+/** Wrapper for two functions, T => String and String => T
+  *
+  * Does not validate that the functions represent a bijection, you must
+  * do that yourself with some cool library like scalacheck.
+  **/
 case class Bijection[T: ClassTag](toUrl: T => String,
                                   fromUrl: PartialFunction[String, T]) {
   def key: String = implicitly[ClassTag[T]].runtimeClass.getName
 }
 
+/** A router is a wrapper around a sequence of bijections. */
 case class Router[T](bijections: Bijection[_ <: T]*) {
   private val rulesByClasstag: Map[String, Bijection[_ <: T]] =
     bijections.map(x => x.key -> x).toMap
@@ -52,7 +59,7 @@ case class Router[T](bijections: Bijection[_ <: T]*) {
   }
 }
 
-/** Anything that can unapply on string values */
+/** Anything that can unapply on string values can be put into a url extractor */
 abstract class StringUnapply[T] {
   def unapply(arg: String): Option[T]
 }

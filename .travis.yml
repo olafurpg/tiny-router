@@ -4,7 +4,7 @@ jdk: oraclejdk8
 sbt_args: "-J-Xmx2G"
 
 script:
-- sbt tiny-routerJVM/test:run tiny-routerJS/test:run
+- sbt +test
 
 # Taken from https://github.com/travis-ci/travis-ci/issues/3225#issuecomment-200965782
 before_install:
