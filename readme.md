@@ -3,6 +3,10 @@ tiny-router
 A small library (100 LOC, zero dependencies) to map an ADT to urls and urls back to ADTs.
 Works on Scala, Scala.js, 2.10 and 2.11.
 
+```scala
+libraryDependencies += "com.geirsson" %%% "tiny-router" % "latest.integration"
+```
+
 ## Example
 
 ```scala
