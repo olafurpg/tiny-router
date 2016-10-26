@@ -15,7 +15,8 @@ object Test {
     },
     static(Dashboard, "dashboard")
   )
-  def main(args: Array[String]): Unit = {
+
+  def test(): Unit = {
     val pages = Seq[Page](Dashboard, Edit(2), Update(3, 5.2f))
     pages.foreach { page =>
       val url = router.toUrl(page).get

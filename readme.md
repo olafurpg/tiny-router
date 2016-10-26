@@ -2,10 +2,7 @@ tiny-router
 ==========
 A small library to create a simple bijection between ADTs and strings.
 
-
-
 ## Example
-For example,
 
 ```scala
 sealed abstract class Page
