@@ -28,20 +28,22 @@ val router = {
     },
     static(Dashboard, "dashboard")
   )
-  // NOTE. You should only define one route per class of the ADT. The following will not work.
-  val brokenRouter = tinyrouter.Router[Page](
-    dynamic[Edit](x => s"edit/${x.id}") {
-      case url"edit/${int(i)}" => Edit(i)
-    },
-    dynamic[Edit](x => s"banana/${x.id}") {
-      case url"banana/${int(i)}" => Edit(i)
-    }
-  )
 }
 val url  = router.toUrl(Edit(2))    // Some("edit/2")
 val edit = router.fromUrl("edit/2") // Some(Edit(2))
 ```
 
+You should only define one route per class of the ADT. The following will not work.
+```scala
+val brokenRouter = tinyrouter.Router[Page](
+  dynamic[Edit](x => s"edit/${x.id}") {
+    case url"edit/${int(i)}" => Edit(i)
+  },
+  dynamic[Edit](x => s"banana/${x.id}") {
+    case url"banana/${int(i)}" => Edit(i)
+  }
+)
+```
 ### Testing
 
 Use [scalacheck](https://scalacheck.org/) to test that your router is
@@ -69,7 +71,7 @@ object RouterProperties extends Properties("Router") {
 
 ## Alternatives
 
-* [scalajs-router](https://github.com/japgolly/scalajs-react/blob/master/doc/ROUTER.md): zero boilerplate + has a lot more features.
+* [scalajs-router](https://github.com/japgolly/scalajs-react/blob/master/doc/ROUTER.md): zero boilerplate + has way more features.
 
 ## Credits
 The `url` extractor implementation is mostly borrowed and adapted from the awesome
