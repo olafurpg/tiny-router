@@ -9,6 +9,8 @@ libraryDependencies += "com.geirsson" %%% "tiny-router" % "latest.integration"
 
 ## Example
 
+It requires a bit of boilerplate to provide the implementation for each direction.
+
 ```scala
 sealed abstract class Page
 case object Dashboard extends Page
@@ -17,7 +19,7 @@ case class Update(from: Int, to: Float) extends Page
 
 val router = {
   import tinyrouter.TinyRouter._
-  val router = tinyrouter.Router[Page](
+  tinyrouter.Router[Page](
     dynamic[Edit](x => s"edit/${x.id}") {
       case url"edit/${int(i)}" => Edit(i)
     },
@@ -40,16 +42,6 @@ val url  = router.toUrl(Edit(2))    // Some("edit/2")
 val edit = router.fromUrl("edit/2") // Some(Edit(2))
 ```
 
-Sure, it requires a bit of boilerplate to provide the implementation for each direction.
-
-## Alternatives
-
-* [scalajs-router](https://github.com/japgolly/scalajs-react/blob/master/doc/ROUTER.md): zero boilerplate, really cool.
-
-## Credits
-The `url` extractor implementation is mostly borrowed and adapted from the awesome
-Playframework [String Interpolating Routing DSL](https://www.playframework.com/documentation/2.5.x/ScalaSirdRouter).
-
 ### Testing
 
 Use [scalacheck](https://scalacheck.org/) to test that your router is
@@ -69,8 +61,17 @@ object RouterProperties extends Properties("Router") {
   }
   property("routes are bijective") = forAll { page: Page =>
     val url = router.toUrl(page).get
-    val page2 = router.fromUrl(url).get
-    page == page2
+    val pageFromUrl = router.fromUrl(url).get
+    page == pageFromUrl
   }
 }
 ```
+
+## Alternatives
+
+* [scalajs-router](https://github.com/japgolly/scalajs-react/blob/master/doc/ROUTER.md): zero boilerplate + has a lot more features.
+
+## Credits
+The `url` extractor implementation is mostly borrowed and adapted from the awesome
+Playframework [String Interpolating Routing DSL](https://www.playframework.com/documentation/2.5.x/ScalaSirdRouter).
+
