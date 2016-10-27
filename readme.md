@@ -1,4 +1,4 @@
-tiny-router
+tiny-router [![Join the chat at https://gitter.im/olafurpg/tiny-router](https://badges.gitter.im/olafurpg/tiny-router.svg)](https://gitter.im/olafurpg/tiny-router?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/olafurpg/tiny-router.svg?branch=master)](https://travis-ci.org/olafurpg/tiny-router)
 ===========
 A small library (100 LOC, zero dependencies) to map an ADT to urls and urls back to ADTs.
 Works on Scala, Scala.js, 2.10 and 2.11.
