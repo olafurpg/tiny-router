@@ -1,4 +1,6 @@
 organization in ThisBuild := "com.geirsson"
+crossScalaVersions in ThisBuild := Seq("2.11.8", "2.10.6")
+
 lazy val `tiny-router-root` = project
   .in(file("."))
   .settings(noPublishSettings)
@@ -45,7 +47,7 @@ lazy val `tiny-router` = crossProject
   .settings(
     publishSettings,
     moduleName := "tiny-router",
-    version := "0.1.0",
+    version := "0.1.1",
     libraryDependencies ++= {
       if (scalaVersion.value.startsWith("2.10."))
         Seq(
